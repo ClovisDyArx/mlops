@@ -1,0 +1,10 @@
+datasets
+flask
+pandas
+scikit-learn
+numpy
+uvicorn
+fastapi
+pydantic
+mlflow
+mlflow-skinny

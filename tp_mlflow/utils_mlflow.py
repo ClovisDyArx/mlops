@@ -1,6 +1,6 @@
 def get_base_uri():
-    host = "127.0.0.1"
-    port = "8080"
+    host = "localhost"
+    port = "1235"
     base_uri = f"http://{host}:{port}"
 
     return base_uri
