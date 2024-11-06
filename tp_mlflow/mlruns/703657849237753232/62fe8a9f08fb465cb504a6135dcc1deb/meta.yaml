@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/703657849237753232/62fe8a9f08fb465cb504a6135dcc1deb/artifacts
+end_time: 1730901444022
+entry_point_name: ''
+experiment_id: '703657849237753232'
+lifecycle_stage: active
+run_id: 62fe8a9f08fb465cb504a6135dcc1deb
+run_name: mysterious-toad-348
+run_uuid: 62fe8a9f08fb465cb504a6135dcc1deb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730901441684
+status: 3
+tags: []
+user_id: clovinux
