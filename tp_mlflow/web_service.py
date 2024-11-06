@@ -2,10 +2,8 @@ from fastapi import FastAPI
 import uvicorn
 import numpy as np
 import mlflow
-from pandas.core.interchange.from_dataframe import primitive_column_to_ndarray
-from sklearn import datasets
-import pandas as pd
 from pydantic import BaseModel
+import utils_mlflow
 
 
 class Iris(BaseModel):
@@ -20,18 +18,17 @@ class NewModel(BaseModel):
     model_version: str
 
 
-def load_model_ws(model_name, model_version):
-    host = "127.0.0.1"
-    port = "8080"
-    base_uri = f"http://{host}:{port}"
+def load_model_ws(base_uri, model_name, model_version):
     mlflow.set_tracking_uri(uri=base_uri)
 
-    model_uri = f"models:/{model_name}/{model_version}"
+    model_uri = utils_mlflow.get_model_uri(model_name, model_version)
     return mlflow.sklearn.load_model(model_uri)
 
 
 app = FastAPI()
-model = load_model_ws("tp_mlflow_mlops", "latest")
+base_uri = utils_mlflow.get_base_uri()
+mlflow.set_tracking_uri(uri=base_uri)
+model = load_model_ws(base_uri, "tp_mlflow_mlops", "latest")
 
 
 @app.post("/predict")
