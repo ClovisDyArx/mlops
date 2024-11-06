@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/703657849237753232/7716c69a379845739dc8d841fdd41987/artifacts
+end_time: 1730900077055
+entry_point_name: ''
+experiment_id: '703657849237753232'
+lifecycle_stage: active
+run_id: 7716c69a379845739dc8d841fdd41987
+run_name: exultant-ram-617
+run_uuid: 7716c69a379845739dc8d841fdd41987
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730900074620
+status: 3
+tags: []
+user_id: clovinux

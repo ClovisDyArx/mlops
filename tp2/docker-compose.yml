@@ -1,0 +1,6 @@
+services:
+  ml_model:
+    image: ml_model
+    build: .
+    ports:
+      - "6969:6969"

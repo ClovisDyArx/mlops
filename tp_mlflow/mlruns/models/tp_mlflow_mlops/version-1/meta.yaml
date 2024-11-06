@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1730900076894
+current_stage: None
+description: ''
+last_updated_timestamp: 1730900076894
+name: tp_mlflow_mlops
+run_id: 7716c69a379845739dc8d841fdd41987
+run_link: ''
+source: mlflow-artifacts:/703657849237753232/7716c69a379845739dc8d841fdd41987/artifacts/iris_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/703657849237753232/7716c69a379845739dc8d841fdd41987/artifacts/iris_model
+user_id: null
+version: 1
