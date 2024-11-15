@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONNX Model in JavaScript</title>
+</head>
+<body>
+    <h1>ONNX Model Prediction with JavaScript</h1>
+    <input type="file" id="imageUpload" accept="image/*">
+    <button id="predictButton">Run Prediction</button>
+    <div id="output"></div>
+
+    <!-- Load ONNX Runtime Web from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+
+    <script type="module">
+        const modelPath = './small_model.onnx';  // Adjust as needed
+
+        let session;
+        async function loadModel() {
+            session = await ort.InferenceSession.create(modelPath);
+            console.log("Model loaded successfully!");
+        }
+
+        // Preprocess the uploaded image
+        async function preprocessImage(image) {
+            // Resize and grayscale the image to 28x28 pixels (assumes MNIST model)
+            const canvas = document.createElement("canvas");
+            canvas.width = 28;
+            canvas.height = 28;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0, 28, 28);
+
+            const imageData = ctx.getImageData(0, 0, 28, 28).data;
+            const input = new Float32Array(28 * 28);
+
+            for (let i = 0; i < 28 * 28; i++) {
+                const r = imageData[i * 4] / 255;
+                const g = imageData[i * 4 + 1] / 255;
+                const b = imageData[i * 4 + 2] / 255;
+                input[i] = (r + g + b) / 3;  // Grayscale
+            }
+
+            // Shape it to the expected input dimensions [1, 1, 28, 28]
+            return new ort.Tensor("float32", input, [1, 1, 28, 28]);
+        }
+
+        // Run Prediction
+        async function runPrediction() {
+            if (!session) {
+                console.log("Model not loaded yet, loading now...");
+                await loadModel();
+            }
+
+            // Get the image from the file input
+            const inputElement = document.getElementById("imageUpload");
+            if (inputElement.files.length === 0) {
+                alert("Please upload an image first.");
+                return;
+            }
+
+            const image = new Image();
+            image.src = URL.createObjectURL(inputElement.files[0]);
+            await new Promise((resolve) => (image.onload = resolve));
+
+            // Preprocess the image and run model inference
+            const inputTensor = await preprocessImage(image);
+            const feeds = { 'input': inputTensor };
+            const results = await session.run(feeds);
+
+            // Retrieve and display output
+            const outputTensor = results.output;
+            const predictions = Array.from(outputTensor.data);
+
+            // Find the class with the highest score
+            const predictedClass = predictions.indexOf(Math.max(...predictions));
+            document.getElementById("output").innerText = `Predicted Class: ${predictedClass}`;
+            console.log("Predicted probabilities:", predictions);
+        }
+
+        // Add event listener to the button
+        document.getElementById("predictButton").addEventListener("click", runPrediction);
+
+        // Load the model initially
+        loadModel();
+    </script>
+</body>
+</html>
